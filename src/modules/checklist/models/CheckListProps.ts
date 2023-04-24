@@ -1,7 +1,7 @@
 import { ChecklistTypes } from "@modules/shared/models/ChecklistTypes";
 
 export type CheckListProps = {
-  _id: number;
+  _id: string;
   type: ChecklistTypes;
   amount_of_milk_produced: string;
   number_of_cows_head: string;

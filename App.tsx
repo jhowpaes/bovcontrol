@@ -5,6 +5,7 @@ import { useFonts, Roboto_400Regular, Roboto_700Bold, Roboto_900Black } from '@e
 import theme from '@core/theme';
 import { MainNavigation } from '@core/navigation';
 import { Loading } from '@modules/shared/components/Loading';
+import { RealmContextProvider } from '@core/database/context/RealmContext';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -15,12 +16,14 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      {fontsLoaded ? <MainNavigation /> : <Loading />}
+      <RealmContextProvider>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        {fontsLoaded ? <MainNavigation /> : <Loading />}
+      </RealmContextProvider>
     </ThemeProvider>
   );
 }

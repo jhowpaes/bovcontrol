@@ -37,8 +37,8 @@ export function ChecklistDetails({ checklist, setUpdateChecklist, updateChecklis
       <DetailsContent>
         <RenderChecklistTextItem label="Tipo do checklist:" checklistText={checklist?.type} />
         <RenderChecklistTextItem label="Nome do fazendeiro:" checklistText={checklist?.from?.name} />
-        <RenderChecklistTextItem label="Nome da fazenda:" checklistText={checklist?.farmer.name} />
-        <RenderChecklistTextItem label="Cidade da fazenda:" checklistText={checklist?.farmer.city} />
+        <RenderChecklistTextItem label="Nome da fazenda:" checklistText={checklist?.farmer?.name} />
+        <RenderChecklistTextItem label="Cidade da fazenda:" checklistText={checklist?.farmer?.city} />
         <RenderChecklistTextItem label="Supervisor:" checklistText={checklist?.to?.name} />
         <RenderChecklistTextItem label="Quantidade de leite produzida no mês:" checklistText={checklist?.amount_of_milk_produced} />
         <RenderChecklistTextItem label="Quantidade de cabeça de gado:" checklistText={checklist?.number_of_cows_head} />

@@ -12,7 +12,9 @@ export function HomeFooter(){
     <Container>
       <Button
         label='Adicionar'
-        onPress={() => navigation.navigate('mainChecklist', { screen: 'createAndUpdateChecklist' })}
+        onPress={() => navigation.navigate('mainChecklist', { 
+          screen: 'createAndUpdateChecklist'
+        })}
       />
     </Container>
   );
