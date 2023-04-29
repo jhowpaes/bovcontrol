@@ -7,41 +7,22 @@ import { Header } from '@modules/shared/components/Header';
 import { ListEmpty } from '@modules/shared/components/ListEmpty';
 import { HomeFooter } from '@modules/home/components/HomeFooter';
 import { ChecklistCard } from '@modules/shared/components/ChecklistCard';
-import { CheckListProps } from '@modules/checklist/models/CheckListProps';
+import { getDatabaseTable } from '@core/database/services/realmDatabaseToView';
 
 import { Container } from './styles';
+import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
 
 export function HomeScreen(){
   const navigation = useNavigation();
-  const [checklists, setChecklists] = useState<CheckListProps[]>([
-    {
-      _id: 1,
-      type: 'BPA',
-      amount_of_milk_produced: '20',
-      number_of_cows_head: '200',
-      had_supervision: false,
-      farmer: {
-        name: 'Fazenda São Rock',
-        city: 'São Rock',
-      },
-      from: {
-        name: 'Luciano Camargo',
-      },
-      to: {
-        name: 'Marcos Silva',
-      },
-      created_at: new Date('2022-02-01T10:10:21.748Z'),
-      updated_at: new Date('2022-02-01T10:10:21.748Z'),
-    }
-  ]);
+  const [checklists, setChecklists] = useState<IChecklist[]>([] as IChecklist[]);
 
 
   async function loadChecklist() {
     try {
       const realm = await getRealm();
-      const data = realm.objects('Checklists').sorted('created_at', true);
+      const data = getDatabaseTable<IChecklist>(realm, 'Checklists');
       
-      setChecklists(data);
+      setChecklists(Array.from(data));
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +45,7 @@ export function HomeScreen(){
           }
         ]}
         data={checklists}
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={item => item?._id!}
         renderItem={
           ({ item }) => <ChecklistCard
               onPress={

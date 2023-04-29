@@ -3,7 +3,7 @@ import { ObjectSchema } from "realm";
 export const ChecklistSchema: ObjectSchema = {
 	name: 'Checklists',
 	properties: {
-		_id: 'string',
+		_id: 'string?',
 		checklist_id: 'int?',
 		type: 'string',
 		amount_of_milk_produced: 'string',
@@ -23,6 +23,7 @@ export const ChecklistSchema: ObjectSchema = {
     },
     created_at: 'date',
     updated_at: 'date',
+		synced: { type: "bool", default: true },
 	},
 	primaryKey: '_id',
 };

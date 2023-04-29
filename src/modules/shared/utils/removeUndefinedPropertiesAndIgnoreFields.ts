@@ -1,18 +1,14 @@
-type ObjectType = {
-  [key: string]: any;
-};
-
-export function removeUndefinedPropertiesAndIgnoreFields(
-  obj: ObjectType,
+export function removeUndefinedPropertiesAndIgnoreFields<T extends Record<string, any>>(
+  object: T,
   ignoreFields: string[]
-): ObjectType {
-  const result: ObjectType = {};
+): Partial<T> {
+  const result: Partial<T> = {};
 
-  Object.entries(obj).forEach(([key, value]) => {
+  Object.entries(object).forEach(([key, value]) => {
     if (value !== undefined && !ignoreFields.includes(key)) {
-      result[key] = value;
+      result[key as keyof T] = value;
     }
   });
 
   return result;
-}
+};

@@ -8,17 +8,19 @@ import { Header } from '@modules/shared/components/Header';
 import { Button } from '@modules/shared/components/Button';
 import { InputForm } from '@modules/shared/components/Form/InputForm';
 import { ChecklistTypeButton } from '@modules/shared/components/Form/ChecklistTypeButton';
-import { ChecklistTypes } from '@modules/shared/models/ChecklistTypes';
+import { ChecklistTypes } from '@modules/shared/types/ChecklistTypes';
 import { Checkbox } from '@modules/shared/components/Form/Checkbox';
-import { CheckListProps } from '@modules/checklist/models/CheckListProps';
 import { ChecklistDetails } from '@modules/checklist/components/ChecklistDetails';
 import { getRealm } from '@core/database/realm';
 
 import { Container, Form, ChecklistTypeGroup, InputGroup } from './styles';
-import { CreateChecklistDatabase, UpdateChecklistDatabase } from '@modules/checklist/services/database';
+import { insertObject } from '@core/database/services/realmDatabaseInsert';
+import { updateObject } from '@core/database/services/realmDatabaseUpdate';
+import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
+import { useInternet } from '@core/context/InternetContext';
 
 type ParamList = {
-  checklist?: CheckListProps;
+  checklist?: IChecklist;
 };
 
 type FormProps = {
@@ -33,6 +35,7 @@ type FormProps = {
 export function CreateAndUpdateChecklistScreen(){
   const checklist = useRoute<RouteProp<ParamList>>()?.params?.checklist;
   const navigation = useNavigation();
+  const { isInternetActive } = useInternet();
   const [typeButtonSelected, setTypeButtonSelected] = useState<ChecklistTypes>(checklist?.type);
   const [checked, setChecked] = useState<boolean>(
     checklist?.had_supervision !== undefined ? checklist?.had_supervision :false
@@ -52,7 +55,7 @@ export function CreateAndUpdateChecklistScreen(){
   async function handleChecklist(form: FormProps) {
     const realm = await getRealm();
     try {
-      const formData: CheckListProps = {
+      const formData: IChecklist = {
         _id: uuid.v4().toString(),
         type: typeButtonSelected,
         amount_of_milk_produced: form.amountOfMilkProduced,
@@ -70,17 +73,18 @@ export function CreateAndUpdateChecklistScreen(){
         },
         created_at: new Date(),
         updated_at: new Date(),
+        synced: isInternetActive
       };
 
       if (!checklist) {
         const data = { "checklists": [formData]};
 
-        CreateChecklistDatabase(realm, formData);
+        insertObject(realm, formData, 'Checklists');
       }
 
       if (checklist) {
         const fieldsToIgnore = ['_id', 'created_at'];
-        UpdateChecklistDatabase(realm, checklist._id, formData, fieldsToIgnore);
+        updateObject(realm, checklist._id, 'Checklists', formData, fieldsToIgnore);
       }
     } catch (error) {
       Alert.alert('Ops...', 'Tivemos um erro na tentativa de criar um checklist.')
