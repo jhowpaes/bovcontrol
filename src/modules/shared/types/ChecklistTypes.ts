@@ -1,0 +1,1 @@
+export type ChecklistTypes = 'BPA' | 'Antibiótico' | 'BPF';
