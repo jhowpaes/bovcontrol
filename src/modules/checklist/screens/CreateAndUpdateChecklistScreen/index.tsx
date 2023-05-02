@@ -18,6 +18,7 @@ import { insertObject } from '@core/database/services/realmDatabaseInsert';
 import { updateObject } from '@core/database/services/realmDatabaseUpdate';
 import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
 import { useInternet } from '@core/context/InternetContext';
+import { createChecklist, updateChecklist } from '@modules/checklist/services/ChecklistService';
 
 type ParamList = {
   checklist?: IChecklist;
@@ -40,7 +41,7 @@ export function CreateAndUpdateChecklistScreen(){
   const [checked, setChecked] = useState<boolean>(
     checklist?.had_supervision !== undefined ? checklist?.had_supervision :false
   );
-  const [updateChecklist, setUpdateChecklist] = useState<boolean>(false);
+  const [update, setUpdate] = useState<boolean>(false);
   console.log(checklist);
   
 
@@ -56,20 +57,19 @@ export function CreateAndUpdateChecklistScreen(){
     const realm = await getRealm();
     try {
       const formData: IChecklist = {
-        _id: uuid.v4().toString(),
         type: typeButtonSelected,
         amount_of_milk_produced: form.amountOfMilkProduced,
         number_of_cows_head: form.numberOfCowsHead,
         had_supervision: checked,
         farmer: {
           name: form.farmName,
-          city: form.farmCity
+          city: form.farmCity,
         },
         from: {
-          name: form.supervisor
+          name: form.supervisor,
         },
         to: {
-          name: form.farmerName
+          name: form.farmerName,
         },
         created_at: new Date(),
         updated_at: new Date(),
@@ -77,14 +77,14 @@ export function CreateAndUpdateChecklistScreen(){
       };
 
       if (!checklist) {
-        const data = { "checklists": [formData]};
-
-        insertObject(realm, formData, 'Checklists');
+        insertObject(realm, 'Checklists', formData);
+        await createChecklist(formData);
       }
 
       if (checklist) {
         const fieldsToIgnore = ['_id', 'created_at'];
         updateObject(realm, checklist._id, 'Checklists', formData, fieldsToIgnore);
+        await updateChecklist(checklist._id, formData);
       }
     } catch (error) {
       Alert.alert('Ops...', 'Tivemos um erro na tentativa de criar um checklist.')
@@ -102,7 +102,7 @@ export function CreateAndUpdateChecklistScreen(){
   return (
     <Container>
       <Header showBackButton showHeaderLogo={false} title={checklist && updateChecklist ? pageTitle : 'Detalhe do checklist'} />
-      {!checklist || updateChecklist ? <Form>
+      {!checklist || update ? <Form>
         <ChecklistTypeGroup>
           <ChecklistTypeButton
             type='BPA'
@@ -184,8 +184,8 @@ export function CreateAndUpdateChecklistScreen(){
       </Form> : (
         <ChecklistDetails 
           checklist={checklist}
-          updateChecklist={updateChecklist}
-          setUpdateChecklist={() => setUpdateChecklist(!updateChecklist)}
+          updateChecklist={update}
+          setUpdateChecklist={() => setUpdate(!update)}
         />
       )} 
     </Container>

@@ -3,8 +3,7 @@ import { ObjectSchema } from "realm";
 export const ChecklistSchema: ObjectSchema = {
 	name: 'Checklists',
 	properties: {
-		_id: 'string?',
-		checklist_id: 'int?',
+		_id: 'int?',
 		type: 'string',
 		amount_of_milk_produced: 'string',
 		number_of_cows_head: 'string',

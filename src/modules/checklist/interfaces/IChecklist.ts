@@ -2,8 +2,7 @@ import { ChecklistTypes } from "@modules/shared/types/ChecklistTypes";
 import Realm from "realm";
 
 export interface IChecklist {
-	_id?: string,
-  checklist_id?: number;
+	_id?: number;
   type: ChecklistTypes;
   amount_of_milk_produced: string;
   number_of_cows_head: string;

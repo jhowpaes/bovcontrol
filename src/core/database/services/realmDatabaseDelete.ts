@@ -1,3 +1,4 @@
+import Realm from "realm";
 import { DatabaseNameProps } from "./realmDatabaseInsert";
 import { getObjectById } from "./realmDatabaseToView";
 

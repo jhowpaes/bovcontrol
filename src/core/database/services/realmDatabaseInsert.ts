@@ -1,22 +1,19 @@
-import uuid from 'react-native-uuid';
-
+import Realm from "realm";
 export type DatabaseNameProps = 'Checklists';
 
-export function insertObject<T>(realmInstance: Realm, newObject: T, databaseName: DatabaseNameProps) {
-  const object = {...newObject, _id: uuid.v4().toString()};
+export function insertObject<T extends Realm.Object>(realmInstance: Realm, databaseName: DatabaseNameProps, newObject: T) {
   realmInstance.write(() => {
-    realmInstance.create(databaseName, object);
+    realmInstance.create(databaseName, newObject);
   })
 };
 
-export function insertArraysObjects<T>(
+export function insertArraysObjects<T extends Realm.Object>(
   realmInstance: Realm,
-  newObjects: T[],
   databaseName: DatabaseNameProps,
+  newObjects: T[],
 ) {
   newObjects.forEach((newObj) => {
-    const object = {...newObj, _id: uuid.v4().toString()};
-    insertObject(realmInstance, object, databaseName);
+    insertObject(realmInstance, databaseName, newObj);
   })
 }
 
@@ -38,12 +35,10 @@ export function insertParentObject<T, U>(
     if (ObjectParentUpdate && propertyName in ObjectParentUpdate) {
       if (Array.isArray(ObjectParentUpdate[propertyName])) {
         ObjectParentUpdate.forEach((item: any) => {
-          const object = {...item, _id: uuid.v4().toString()};
-          ObjectParentUpdate[propertyName].push(object);
+          ObjectParentUpdate[propertyName].push(item);
         });
       } else {
-        const object = {...newObject, _id: uuid.v4().toString()};
-        ObjectParentUpdate[propertyName] = object;
+        ObjectParentUpdate[propertyName] = newObject;
       }
     } else {
       console.warn(`Journey with id ${objectId} not found or property ${propertyName.toString()} does not exist.`);
