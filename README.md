@@ -11,19 +11,41 @@
 - Sincronizar os checklists cadastrados offline com a api.
 
 ### Requisitos
-- [] Libraries and patterns
+- [x] Libraries and patterns
 - [x] React-native 0.65 ou superior. (Fique a vontade para utilizar o expo)
 - [x] UTILIZE STYLED COMPONENTS
-- [] Hooks
-- [] ContextAPI
-- [] Banco de Dados (RealmDB)
+- [x] Hooks
+- [x] ContextAPI
+- [x] Banco de Dados (RealmDB)
 
 ### Layout
 
 ### Packages
 
-- jest
-- react-native-testing-library
+- expo
 - realmDB
 - styled-components
-- 
+- phosphor-react-native
+- @react-native-community/netinf
+- @react-navigation/**
+- axios
+- date-fns
+- react-hook-form
+
+### Deployment
+
+- Create environment file with api url.
+
+- Package download
+```bash
+  yarn 
+```
+
+- Run command
+
+```bash
+  yarn ios:build | yarn android:build
+```
+
+
+Made with much :purple_heart: and :muscle: by Jhow Paes :blush: <a href="https://www.linkedin.com/in/jhowpaes/">Talk to me!</a>
