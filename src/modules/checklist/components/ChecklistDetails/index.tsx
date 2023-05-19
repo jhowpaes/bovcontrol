@@ -2,12 +2,11 @@ import React from 'react';
 import { useTheme } from 'styled-components/native';
 import { Pen } from 'phosphor-react-native';
 
-import { CheckListProps } from '@modules/checklist/models/CheckListProps';
-
 import { Container, Text, ChecklistTextItem, Label, DetailsContent, UpdateButton } from './styles';
+import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
 
 type Props = {
-  checklist?: CheckListProps;
+  checklist?: IChecklist;
   updateChecklist: boolean;
   setUpdateChecklist: (value: boolean) => void;
 }

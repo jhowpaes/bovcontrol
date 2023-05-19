@@ -1,6 +1,6 @@
 import Realm from "realm";
 
-import { ChecklistSchema, FarmerSchema, PersonSchema } from "./models/Checklist";
+import { ChecklistSchema, FarmerSchema, LocationSchema, PersonSchema } from "./models/Checklist";
 
 export const getRealm = async () => await Realm.open({
   path: "checklist-app",
@@ -8,6 +8,7 @@ export const getRealm = async () => await Realm.open({
     ChecklistSchema,
     FarmerSchema,
     PersonSchema,
+    LocationSchema,
   ],
-  schemaVersion: 3
+  schemaVersion: 4
 });

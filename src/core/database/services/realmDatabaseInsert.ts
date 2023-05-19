@@ -1,4 +1,5 @@
 import Realm from "realm";
+
 export type DatabaseNameProps = 'Checklists';
 
 export function insertObject<T extends Realm.Object>(realmInstance: Realm, databaseName: DatabaseNameProps, newObject: T) {

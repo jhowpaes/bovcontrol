@@ -1,6 +1,9 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { CreateAndUpdateChecklistScreen } from '../screens/CreateAndUpdateChecklistScreen';
+
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { CreateChecklistScreen } from '../screens/CreateChecklistScreen';
+import { UpdateChecklistScreen } from '../screens/UpdateChecklistScreen';
+import { DetailsChecklistScreen } from '../screens/DetailsChecklistScreen';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -9,7 +12,9 @@ export function ChecklistStack(){
     <Navigator screenOptions={{
       headerShown: false,
     }}>
-      <Screen name="createAndUpdateChecklist" component={CreateAndUpdateChecklistScreen} />
+      <Screen name="createChecklist" component={CreateChecklistScreen} />
+      <Screen name="updateChecklist" component={UpdateChecklistScreen} />
+      <Screen name="detailsChecklist" component={DetailsChecklistScreen} />
     </Navigator>
   );
 }

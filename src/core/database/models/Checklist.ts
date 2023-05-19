@@ -3,7 +3,7 @@ import { ObjectSchema } from "realm";
 export const ChecklistSchema: ObjectSchema = {
 	name: 'Checklists',
 	properties: {
-		_id: 'int?',
+		_id: 'int',
 		type: 'string',
 		amount_of_milk_produced: 'string',
 		number_of_cows_head: 'string',
@@ -20,6 +20,10 @@ export const ChecklistSchema: ObjectSchema = {
       type: 'object',
       objectType: 'Person',
     },
+		location: {
+			type: 'object',
+      objectType: 'Location',
+		},
     created_at: 'date',
     updated_at: 'date',
 		synced: { type: "bool", default: true },
@@ -41,5 +45,14 @@ export const PersonSchema: ObjectSchema = {
 	embedded: true,
 	properties: {
     name: 'string',
+  },
+};
+
+export const LocationSchema: ObjectSchema = {
+	name: 'Location',
+	embedded: true,
+	properties: {
+    latitude: 'int',
+    longitude: 'int',
   },
 };

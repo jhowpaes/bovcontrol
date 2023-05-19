@@ -1,4 +1,4 @@
-import { CheckListProps } from "@modules/checklist/models/CheckListProps";
+import { IChecklist } from "@modules/checklist/interfaces/IChecklist";
 
 export declare global {
   namespace ReactNavigation {
@@ -6,7 +6,9 @@ export declare global {
       mainHome: { screen: string };
       home: undefined;
       mainChecklist: { screen: string, params?: { checklist?: CheckListProps | undefined}  };
-      createAndUpdateChecklist: CheckListProps | undefined ;
+      createChecklist: undefined ;
+      updateChecklist: { checklist: IChecklist };
+      detailsChecklist: { checklist: IChecklist };
     }
   }
 }

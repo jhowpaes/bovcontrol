@@ -11,25 +11,32 @@ import { getDatabaseTable } from '@core/database/services/realmDatabaseToView';
 
 import { Container } from './styles';
 import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
+import { getChecklists } from '@modules/checklist/services/ChecklistService';
+import { insertArraysObjects } from '@core/database/services/realmDatabaseInsert';
 
 export function HomeScreen(){
   const navigation = useNavigation();
   const [checklists, setChecklists] = useState<IChecklist[]>([] as IChecklist[]);
 
-
-  async function loadChecklist() {
+  async function loadOfflineChecklist() {
     try {
       const realm = await getRealm();
       const data = getDatabaseTable<IChecklist>(realm, 'Checklists');
-      
       setChecklists(Array.from(data));
     } catch (error) {
       console.log(error);
     }
   };
 
+  async function fetchAndSyncChecklists() {
+    const realm = await getRealm();
+    const apiSyncChecklists = await getChecklists();
+    insertArraysObjects(realm, 'Checklists', apiSyncChecklists)
+  }
+
   useEffect(() => {
-    loadChecklist();
+    loadOfflineChecklist();
+    fetchAndSyncChecklists();
   }, []);
 
   return (
@@ -45,14 +52,14 @@ export function HomeScreen(){
           }
         ]}
         data={checklists}
-        keyExtractor={item => item?._id!}
+        keyExtractor={item => item?._id.toString()}
         renderItem={
           ({ item }) => <ChecklistCard
               onPress={
                 () => navigation.navigate(
                   'mainChecklist',
                   { 
-                    screen: 'createAndUpdateChecklist',
+                    screen: 'detailsChecklist',
                     params: { checklist: item } 
                 })
               }

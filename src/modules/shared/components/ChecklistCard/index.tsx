@@ -19,10 +19,10 @@ import {
 } from './styles';
 import { User } from 'phosphor-react-native';
 import { TouchableOpacityProps } from 'react-native';
-import { CheckListProps } from '@modules/checklist/models/CheckListProps';
+import { IChecklist } from '@modules/checklist/interfaces/IChecklist';
 
 type Props = TouchableOpacityProps & {
-  checklistItem: CheckListProps
+  checklistItem: IChecklist
 };
 
 export function ChecklistCard({ checklistItem, ...rest }: Props){

@@ -2,7 +2,7 @@ import { ChecklistTypes } from "@modules/shared/types/ChecklistTypes";
 import Realm from "realm";
 
 export interface IChecklist {
-	_id?: number;
+	_id: number;
   type: ChecklistTypes;
   amount_of_milk_produced: string;
   number_of_cows_head: string;
@@ -10,6 +10,7 @@ export interface IChecklist {
   farmer: IFarmer;
   from: IPerson;
   to: IPerson;
+  location: ILocation;
   created_at: Date;
   updated_at: Date;
   synced: boolean;
@@ -26,3 +27,9 @@ export interface IPerson {
 	name: string;
 }
 export type IPersonObject = IPerson & Realm.Object;
+
+export interface ILocation {
+	latitude: number;
+	longitude: number;
+}
+export type ILocationObject = ILocation & Realm.Object;
